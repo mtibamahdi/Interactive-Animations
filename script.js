@@ -21,9 +21,15 @@ window.addEventListener("click", function (event) {
   drawCircle();
 });
 
+window.addEventListener("mousemove", function (event) {
+  mouse.x = event.x;
+  mouse.y = event.y;
+  drawCircle();
+});
+
 function drawCircle() {
   ctx.fillStyle = "blue";
   ctx.beginPath();
-  ctx.arc(mouse.x, mouse.y, 50, 0, Math.PI * 2);
+  ctx.arc(mouse.x, mouse.y, 40, 0, Math.PI * 2);
   ctx.fill();
 }
