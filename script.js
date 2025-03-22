@@ -18,13 +18,11 @@ const mouse = {
 window.addEventListener("click", function (event) {
   mouse.x = event.x;
   mouse.y = event.y;
-  drawCircle();
 });
 
 window.addEventListener("mousemove", function (event) {
   mouse.x = event.x;
   mouse.y = event.y;
-  drawCircle();
 });
 
 function drawCircle() {
@@ -33,3 +31,11 @@ function drawCircle() {
   ctx.arc(mouse.x, mouse.y, 40, 0, Math.PI * 2);
   ctx.fill();
 }
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawCircle();
+  requestAnimationFrame(animate);
+}
+
+animate();
