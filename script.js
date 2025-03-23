@@ -30,18 +30,21 @@ class Particle {
   constructor() {
     this.x = Math.random() * canvas.width;
     this.y = Math.random() * canvas.height;
-    this.size = Math.random() * 6;
-    this.speedX = Math.random() * 10 - 5.5;
-    this.speedY = Math.random() * 10 - 5.5;
+    this.size = Math.random() * 16;
+    this.speedX = Math.random() * 3 - 1.5;
+    this.speedY = Math.random() * 3 - 1.5;
   }
   update() {
     this.x += this.speedX;
     this.y += this.speedY;
+    if (this.size > 0.3) {
+      this.size -= 0.1;
+    }
   }
   draw() {
     ctx.fillStyle = "blue";
     ctx.beginPath();
-    ctx.arc(this.x, this.y, 40, 0, Math.PI * 2);
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
     ctx.fill();
   }
 }
@@ -58,6 +61,9 @@ function handleParticles() {
   for (let i = 0; i < particlesArray.length; i++) {
     particlesArray[i].update();
     particlesArray[i].draw();
+    if (this.size <= 0.3) {
+      particlesArray.splice(i, 1);
+    }
   }
 }
 
