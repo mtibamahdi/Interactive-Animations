@@ -19,17 +19,23 @@ const mouse = {
 window.addEventListener("click", function (event) {
   mouse.x = event.x;
   mouse.y = event.y;
+  for (let i = 0; i < 100; i++) {
+    particlesArray.push(new Particle());
+  }
 });
 
 window.addEventListener("mousemove", function (event) {
   mouse.x = event.x;
   mouse.y = event.y;
+  for (let i = 0; i < 10; i++) {
+    particlesArray.push(new Particle());
+  }
 });
 
 class Particle {
   constructor() {
-    this.x = Math.random() * canvas.width;
-    this.y = Math.random() * canvas.height;
+    this.x = mouse.x;
+    this.y = mouse.y;
     this.size = Math.random() * 16;
     this.speedX = Math.random() * 3 - 1.5;
     this.speedY = Math.random() * 3 - 1.5;
@@ -42,33 +48,51 @@ class Particle {
     }
   }
   draw() {
-    ctx.fillStyle = "blue";
+    ctx.fillStyle = "white";
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
     ctx.fill();
   }
-}
-
-function init() {
-  for (let i = 0; i < 100; i++) {
-    particlesArray.push(new Particle());
+  draw2() {
+    ctx.beginPath();
+    ctx.moveTo(this.x, this.y);
+    ctx.bezierCurveTo(
+      this.x - this.size,
+      this.y - this.size,
+      this.x - this.size * 1.5,
+      this.y + this.size / 2,
+      this.x,
+      this.y + this.size
+    );
+    ctx.bezierCurveTo(
+      this.x + this.size * 1.5,
+      this.y + this.size / 2,
+      this.x + this.size,
+      this.y - this.size,
+      this.x,
+      this.y
+    );
+    ctx.closePath();
+    ctx.fillStyle = "red";
+    ctx.fill();
   }
 }
-init();
-console.log("particlesArray", particlesArray);
 
 function handleParticles() {
   for (let i = 0; i < particlesArray.length; i++) {
     particlesArray[i].update();
     particlesArray[i].draw();
-    if (this.size <= 0.3) {
+    if (particlesArray[i].size <= 0.3) {
       particlesArray.splice(i, 1);
+      i--;
     }
   }
 }
 
 function animate() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  //ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
   handleParticles();
   requestAnimationFrame(animate);
 }
